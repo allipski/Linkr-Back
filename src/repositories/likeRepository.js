@@ -5,6 +5,10 @@ export async function like({user, postId}){
     return result;
 }
 
+export async function dislike({user, postId}){
+    return connection.query(`DELETE FROM likes WHERE "postId" = $1 AND "userId" = $2;`, [postId, user.id])
+}
+
 export async function verifyPost({description, url}){
     return connection.query(`SELECT posts.id FROM posts WHERE url = $1 AND description = $2;`, [url, description])
 }
