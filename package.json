@@ -1,13 +1,14 @@
 {
-  "name": "projeto17-linkr-back",
+  "name": "back-end-linkr",
   "type": "module",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Rafus",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -18,14 +19,7 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.8.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/allipski/projeto17-linkr-back.git"
-  },
-  "bugs": {
-    "url": "https://github.com/allipski/projeto17-linkr-back/issues"
-  },
-  "homepage": "https://github.com/allipski/projeto17-linkr-back#readme",
-  "devDependencies": {},
-  "description": ""
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
 }
