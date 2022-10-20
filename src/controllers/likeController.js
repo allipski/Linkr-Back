@@ -1,4 +1,4 @@
-import { connection } from "../database/database.js";
+import connection from "../database/database.js"
 
 export async function likeFunction(req, res){
     const {like , dislike} = req.body;
