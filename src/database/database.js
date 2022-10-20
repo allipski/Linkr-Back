@@ -1,14 +1,18 @@
-import pg from 'pg';
+import pkg from 'pg'
+import dotenv from 'dotenv'
 
-const { Pool } = pg;
+dotenv.config();
 
-const databaseConfig = {
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
+let connection;
+const {Pool} = pkg;
+
+try {
+    connection = new Pool({
+        connectionString:process.env.DATABASE_URL,
+    });
+    
+} catch (error) {
+    console.log(`Error ${error} trying to connect to ${process.env.DATABASE_URL}`);
 }
 
-const connection = new Pool(databaseConfig);
-
-export { connection };
+export default connection;
