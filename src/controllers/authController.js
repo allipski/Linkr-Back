@@ -41,8 +41,8 @@ export async function login(req,res){
         return res.status(401).send('Invalid email or password :(');
        }
 
-       const token = jwt.sign({id : user.rows[0].id},process.env.TOKEN_SECRET,{expiresIn: '2d'});
-       res.status(200).send({name: user.rows[0].name, token});
+       const token = jwt.sign({id : user.rows[0].id, email: user.rows[0].email},process.env.TOKEN_SECRET,{expiresIn: '2d'});
+       res.status(200).send({name: user.rows[0].name,token});
 
     } catch (error) {
         console.log(error);
