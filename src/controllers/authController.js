@@ -55,4 +55,4 @@ export async function login(req, res) {
     console.log(error);
     return res.sendStatus(500);
   }
-}
+};
