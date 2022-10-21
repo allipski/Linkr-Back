@@ -42,7 +42,7 @@ export async function login(req,res){
        }
 
        const token = jwt.sign({id : user.rows[0].id},process.env.TOKEN_SECRET,{expiresIn: '2d'});
-       res.status(200).send({name: user.rows[0].name, token});
+       res.status(200).send({email: user.rows[0].email,userPicture:user.rows[0].pictureUrl, token});
 
     } catch (error) {
         console.log(error);
