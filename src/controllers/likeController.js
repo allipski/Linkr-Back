@@ -9,11 +9,11 @@ export async function postLikeFunction(req, res){
             return res.sendStatus(404);
         }
         
-        const {rows: verifyPost} = await likeRepository.verifyPost({description, url})
+        const {rows: verifyPost} = await likeRepository.verifyPost({description, url});
 
         const postId = verifyPost[0].id;
 
-        const {rows: verifyLikeUser} =  await likeRepository.verifylike({postId, user})
+        const {rows: verifyLikeUser} =  await likeRepository.verifylike({postId, user});
 
         if(!verifyLikeUser[0] && like){ 
             await likeRepository.like({user, postId})
