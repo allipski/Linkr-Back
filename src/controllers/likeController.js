@@ -1,6 +1,6 @@
 import * as likeRepository from "../repositories/likeRepository.js";
 
-export async function likeFunction(req, res){
+export async function postLikeFunction(req, res){
     const {like , deslike, url, description} = req.body;
     const { user } = res.locals;
     try{

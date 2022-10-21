@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { likeFunction } from "../controllers/likeController.js";
+import { postLikeFunction } from "../controllers/likeController.js";
 import { validateToken }  from "../middleware/validateToken.js"
 
 
 const router = Router();
 
-router.post('/like', validateToken, likeFunction);
+router.post('/like', validateToken, postLikeFunction);
 
 export default router;
