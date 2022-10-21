@@ -12,10 +12,8 @@ export async function likeFunction(req, res){
         const {rows: verifyPost} = await likeRepository.verifyPost({description, url})
 
         const postId = verifyPost[0].id;
-        console.log(postId)
 
         const {rows: verifyLikeUser} =  await likeRepository.verifylike({postId, user})
-        console.log(verifyLikeUser[0])
 
         if(verifyLikeUser[0] && deslike){
             await likeRepository.dislike({user, postId})
