@@ -1,15 +1,17 @@
+import searchUsers from "../repositories/searchRepository.js"
+
 async function getUser(req,res){
-    const {userId} = req.params
-
+    const {name} = req.body
+    
     try{
-        const user = await connection.query("SELECT * FROM users WHERE id=$1", [userId])
+        const { rows: users } = await searchUsers(name);
+        res.status(200).send(users);
+        
+        console.log({users})
 
-        if(user.rowCount === 0)
-            return res.status(404).send("User not found")
-
-        res.status(200).send(user[0]);
 
     }catch(error){
+        console.log(error)
         res.status(500).send("Problem on user search")
     }
 }
