@@ -5,7 +5,7 @@ import { validateLogin, validateSignUpInputs } from '../middleware/validateSignI
 
 const router = express.Router();
 
-router.post('/signUp',validateSignUpInputs,createUser, login);
+router.post('/signUp',validateSignUpInputs,createUser,login);
 router.post('/',validateLogin,login);
 
 export default router;

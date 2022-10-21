@@ -4,7 +4,7 @@ import cors from 'cors';
 import authRouter from './routers/authRouter.js'
 import likeRouter from "./routers/likeRoutes.js"
 import hashtagRouter from './routers/hashtagRouter.js';
-import searchRouter from "./routers/searchRouter.js"
+import searchRouter from "./routers/searchRouter.js";
 
 dotenv.config();
 

@@ -9,11 +9,11 @@ export async function likeFunction(req, res){
             return res.sendStatus(404);
         }
         
-        const {rows: verifyPost} = await likeRepository.verifyPost({description, url})
+        const {rows: verifyPost} = await likeRepository.verifyPost({description, url});
 
         const postId = verifyPost[0].id;
 
-        const {rows: verifyLikeUser} =  await likeRepository.verifylike({postId, user})
+        const {rows: verifyLikeUser} =  await likeRepository.verifylike({postId, user});
 
         if(verifyLikeUser[0] && deslike){
             await likeRepository.dislike({user, postId})
