@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import authRouter from './routers/authRouter.js'
 import likeRouter from "./routers/likeRoutes.js"
+import hashtagRouter from './routers/hashtagRouter.js';
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ server.use(cors());
 
 server.use(authRouter);
 server.use(likeRouter);
+server.use(hashtagRouter);
 
 
 server.listen(process.env.PORT,()=>{

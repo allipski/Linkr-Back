@@ -1,4 +1,4 @@
-import connection from "../database/database";
+import connection from "../database/database.js";
 
 export async function getHashtags() {
     const result = await connection.query(
