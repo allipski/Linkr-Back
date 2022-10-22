@@ -5,6 +5,7 @@ import authRouter from './routers/authRouter.js'
 import likeRouter from "./routers/likeRoutes.js"
 import hashtagRouter from './routers/hashtagRouter.js';
 import searchRouter from "./routers/searchRouter.js"
+import postsRouter from "./routers/postsRouter.js"
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ server.use(cors());
 server.use(authRouter);
 server.use(likeRouter);
 server.use(hashtagRouter);
-
+server.use(postsRouter);
 server.use(searchRouter);
 
 server.listen(process.env.PORT,()=>{
