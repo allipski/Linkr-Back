@@ -19,6 +19,8 @@ server.use(hashtagRouter);
 server.use(postsRouter);
 server.use(searchRouter);
 
-server.listen(process.env.PORT,()=>{
+const PORT = process.env.PORT;
+
+server.listen(PORT || 4000,()=>{
     console.log(`Server listening on port ${process.env.PORT}`);
 });
