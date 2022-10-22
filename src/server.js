@@ -15,7 +15,6 @@ server.use(cors());
 server.use(authRouter);
 server.use(likeRouter);
 server.use(hashtagRouter);
-
 server.use(searchRouter);
 
 server.listen(process.env.PORT,()=>{
