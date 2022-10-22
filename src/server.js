@@ -4,7 +4,7 @@ import cors from 'cors';
 import authRouter from './routers/authRouter.js'
 import likeRouter from "./routers/likeRoutes.js"
 import hashtagRouter from './routers/hashtagRouter.js';
-import searchRouter from "./routers/searchRouter.js"
+import searchRouter from "./routers/searchRouter.js";
 
 dotenv.config();
 
@@ -17,6 +17,8 @@ server.use(likeRouter);
 server.use(hashtagRouter);
 server.use(searchRouter);
 
-server.listen(process.env.PORT,()=>{
+const PORT = process.env.PORT;
+
+server.listen(PORT || 4000,()=>{
     console.log(`Server listening on port ${process.env.PORT}`);
 });
