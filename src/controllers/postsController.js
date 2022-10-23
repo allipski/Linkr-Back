@@ -1,5 +1,5 @@
 import * as postsRepository from "../repositories/postsRepository.js";
-import getMetadata from "metadata-scraper";
+import getMetadata from "metadata-scraper"; 
 
 export async function publishPost(req, res) {
   let { url: url, description: description, userId: userId } = req.body;
@@ -37,7 +37,7 @@ export async function publishPost(req, res) {
 export async function deletePost(req , res){
   const { id } = req.params;
   const { user } = res.locals;
-  console.log(user)
+  console.log(user.id)
   try{
 
     if(!req.params){
@@ -45,15 +45,16 @@ export async function deletePost(req , res){
     }
 
     const postId = id;
+    console.log(postId)
 
-    const{rows: postUser} = postsRepository.verifyUserPost({user, postId})
+    const{rows: postUser} = await postsRepository.verifyUserPost({user, postId})
     console.log(postUser)
 
     if(!postUser[0]){
       return res.sendStatus(404);
     }
     
-    postsRepository.deleteUser({postId});
+    await postsRepository.deleteUser({postId});
 
     return res.sendStatus(204);
   }catch(err){
