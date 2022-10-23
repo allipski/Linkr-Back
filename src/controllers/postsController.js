@@ -35,20 +35,27 @@ export async function publishPost(req, res) {
 }
 
 export async function getPosts(req, res) {
+  try {
     const posts = await postsRepository.findPosts();
-    const result = posts.rows.map(async (item) => {
+
+    const result = await posts.rows.map(async (item) => {
       await getMetadata(item.url).then(
         (data) => {
           item = {...item,
             metaTitle: data.title,
             metaDescription: data.description,
           }
-          console.log(item)
         });
     });
 
-    console.log(result)
+    console.log(result);
 
     return res.status(200).send(result);
+    
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
+  } 
 }
+
 
