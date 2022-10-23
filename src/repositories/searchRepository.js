@@ -8,4 +8,10 @@ async function searchUsers(name){
     return result;
 }
 
-export default searchUsers
+async function searchUserPage(id){
+
+    const result = await connection.query(`SELECT name, "pictureUrl" FROM users WHERE id = $1`,[id])
+    return result
+}
+
+export {searchUsers,searchUserPage}
