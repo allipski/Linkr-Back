@@ -7,7 +7,6 @@ export async function createPost({ url, description, userId }) {
     [url, description, userId]
   );
   return result;
-
 }
 
 export async function findPosts() {

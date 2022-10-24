@@ -14,7 +14,6 @@ export async function createUser(req, res, next) {
   if (isUsernameValid.rowCount === 1) {
     return res.status(409).send("Email is already taken");
   }
-
   try {
     await usersRepository.registerUser({
       email,
@@ -22,12 +21,13 @@ export async function createUser(req, res, next) {
       username,
       pictureUrl,
     });
-    next();
+    return res.sendStatus(201);
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
   }
-}
+  next();
+};
 
 export async function login(req, res) {
   const { email, password } = req.body;
