@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { getUser } from "../controllers/searchController.js";
+import { getUser,getUserPage } from "../controllers/searchController.js";
+import { validateToken } from "../middleware/validateToken.js";
 
 
 const searchRouter = Router();
 
-searchRouter.get("/users:userId", getUser)
-searchRouter.get("/search/:name", getUser)
+searchRouter.get("/users/:id",validateToken,getUserPage)
+searchRouter.get("/search/:name",validateToken, getUser)
 
 export default searchRouter;
