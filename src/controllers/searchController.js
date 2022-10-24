@@ -1,14 +1,13 @@
 import {searchUsers,searchUserPage} from "../repositories/searchRepository.js"
 
 async function getUser(req,res){
+    
     const {name} = req.params
     console.log(name)
     try{
         const { rows: users } = await searchUsers(name);
         res.status(200).send(users);
-        
         console.log({users})
-
 
     }catch(error){
         console.log(error)

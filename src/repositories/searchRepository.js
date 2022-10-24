@@ -14,4 +14,23 @@ async function searchUserPage(id){
     return result
 }
 
-export {searchUsers,searchUserPage}
+async function searchUserPosts(userId){
+
+    const posts = await connection.query(`
+    SELECT
+        posts.id AS "postId",
+        posts."userId" AS "userId",
+        posts.description,
+        posts.url,
+        users.name,
+        users.pictureUrl
+
+    FROM posts
+    JOIN users ON users.id = posts."userId"
+    WHERE posts."userId" = $1
+    ORDER BY posts."createAt" DESC;
+    `, [userId])
+
+}
+
+export {searchUsers,searchUserPage,searchUserPosts}
