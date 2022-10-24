@@ -7,15 +7,21 @@ export async function createPost({ url, description, userId }) {
     [url, description, userId]
   );
   return result;
+
+}
+
+export async function findPosts() {
+   return  connection.query(`SELECT posts.id, url, description, users.name AS "userName", users."pictureUrl" AS "userPic"  FROM posts JOIN users ON posts."userId" = users.id;`);
+
 }
 
 export async function verifyUserPost({user, postId}){
-    return await connection.query(`SELECT * FROM posts JOIN users ON users.id = posts."userId"
+    return connection.query(`SELECT * FROM posts JOIN users ON users.id = posts."userId"
     WHERE users.id = $1 AND posts.id = $2;`, [user.id, postId])
 }
 
 export async function deleteUser({postId}){
-    return await connection.query(`DELETE FROM posts WHERE posts.id = $1;`, [postId])
+    return connection.query(`DELETE FROM posts WHERE posts.id = $1;`, [postId])
 }
 
 export async function findPosts() {

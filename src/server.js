@@ -21,6 +21,6 @@ server.use(searchRouter);
 
 const PORT = process.env.PORT;
 
-server.listen(PORT || 4000,()=>{
+server.listen(PORT , ()=>{
     console.log(`Server listening on port ${process.env.PORT}`);
 });
