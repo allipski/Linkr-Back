@@ -8,4 +8,5 @@ postsRouter.post('/posts', validateToken, publishPost);
 postsRouter.get('/posts', validateToken, getPosts);
 postsRouter.delete('/posts/:id', validateToken, deletePost)
 
+
 export default postsRouter;

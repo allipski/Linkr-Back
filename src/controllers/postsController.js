@@ -1,5 +1,8 @@
+import getMetaData from "metadata-scraper";
+import { CommandCompleteMessage } from "pg-protocol/dist/messages.js";
 import * as postsRepository from "../repositories/postsRepository.js";
 import getMetadata from "metadata-scraper";
+
 
 export async function publishPost(req, res) {
   let { url: url, description: description, userId: userId } = req.body;
@@ -33,6 +36,7 @@ export async function publishPost(req, res) {
     return res.sendStatus(500);
   }
 }
+
 
 export async function deletePost(req, res) {
   const { id } = req.params;
