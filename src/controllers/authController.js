@@ -43,7 +43,7 @@ export async function login(req, res) {
 
     const validPassword = bcrypt.compareSync(password, user.rows[0].password);
 
-    if (!validPassword) {
+    if (!validPassword && user.rowCount === 1) {
       return res.status(401).send("Invalid email or password :(");
     }
 
