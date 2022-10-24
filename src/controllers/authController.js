@@ -21,12 +21,13 @@ export async function createUser(req, res, next) {
       username,
       pictureUrl,
     });
+    next();
     return res.sendStatus(201);
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
   }
-  next();
+
 };
 
 export async function login(req, res) {
