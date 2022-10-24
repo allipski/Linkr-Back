@@ -1,4 +1,5 @@
 import { getHashtagPosts, getHashtags} from "../repositories/hashtagRepositiry.js";
+import getMetadata from "metadata-scraper";
 
 export async function getTrendingHashtags(req,res) {
     try {
@@ -22,7 +23,24 @@ export async function getHashtagPost(req,res) {
     try {
         const hashtagPosts = await getHashtagPosts(hashtag);
 
-        res.status(200).send(hashtagPosts);
+
+        const newHashtags = await Promise.all(
+            hashtagPosts.map(async (hash) => {
+                const {title, image, description} = await getMetadata(hash.url);
+
+                const newHash = {...hash};
+
+                newHash.title = title;
+                newHash.image = image;
+                newHash.descriptionMeta = description;
+
+                return newHash;
+            })
+        );
+
+        console.log(newHashtags);
+
+        res.status(200).send(newHashtags);
 
     } catch (error) {
         console.log(error);

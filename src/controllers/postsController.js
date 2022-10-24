@@ -1,6 +1,7 @@
 import getMetaData from "metadata-scraper";
 import { CommandCompleteMessage } from "pg-protocol/dist/messages.js";
 import * as postsRepository from "../repositories/postsRepository.js";
+import getMetadata from "metadata-scraper";
 
 
 export async function publishPost(req, res) {
@@ -36,29 +37,61 @@ export async function publishPost(req, res) {
   }
 }
 
-/*export async function getPosts(req, res) {
-    const posts = await postsRepository.findPosts();
-    console.log(posts);
-    const  result = posts.rows.map(async (item) => {
-      await getMetaData(item.url).then(
-        (data) => {
-          item = {...item,
-            metaTitle: data.title,
-            metaDescription: data.description,
-          };
-          console.log(item);
-        });
-    });
-    res.send(result);
-}*/
 
-let c;
+export async function deletePost(req, res) {
+  const { id } = req.params;
+  const { user } = res.locals;
+  console.log(user.id);
+  try {
+    if (!req.params) {
+      return res.sendStatus(404);
+    }
+
+    const postId = id;
+    console.log(postId);
+
+    const { rows: postUser } = await postsRepository.verifyUserPost({
+      user,
+      postId,
+    });
+    console.log(postUser);
+
+    if (!postUser[0]) {
+      return res.sendStatus(404);
+    }
+
+    await postsRepository.deleteUser({ postId });
+
+    return res.sendStatus(204);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("server error");
+  }
+}
 
 export async function getPosts(req, res) {
-  const posts = await postsRepository.findPosts();
-  const a =  posts.rows.map(item => item.url);
-   for ( let i = 0; i < a.length; i++){
-     c = await getMetaData(a[i]);
-   };
-   console.log (c);
+  try {
+    const posts = await postsRepository.findPosts();
+
+    const result = await Promise.all(
+      posts.rows.map(async (item) => {
+        const { title, image, description } = await getMetadata(item.url);
+
+        const newItem = { ...item };
+
+        newItem.metaTitle = title;
+        newItem.image = image;
+        newItem.metaDescription = description;
+
+        return newItem;
+      })
+    );
+
+    console.log(result);
+
+    return res.status(200).send(result);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
+  }
 }

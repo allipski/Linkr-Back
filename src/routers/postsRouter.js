@@ -1,10 +1,12 @@
-import express from 'express'
-import { publishPost, getPosts } from "../controllers/postsController.js";
+import { Router } from "express";
+import { publishPost, getPosts, deletePost } from "../controllers/postsController.js";
+import { validateToken } from "../middleware/validateToken.js";
 
+const postsRouter = Router();
 
-const postsRouter = express.Router();
+postsRouter.post('/posts', validateToken, publishPost);
+postsRouter.get('/posts', validateToken, getPosts);
+postsRouter.delete('/posts/:id', validateToken, deletePost)
 
-postsRouter.post('/posts', publishPost);
-postsRouter.get('/posts', getPosts);
 
 export default postsRouter;
