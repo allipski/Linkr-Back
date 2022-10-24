@@ -7,12 +7,6 @@ export async function createPost({ url, description, userId }) {
     [url, description, userId]
   );
   return result;
-
-}
-
-export async function findPosts() {
-   return  connection.query(`SELECT posts.id, url, description, users.name AS "userName", users."pictureUrl" AS "userPic"  FROM posts JOIN users ON posts."userId" = users.id;`);
-
 }
 
 export async function verifyUserPost({user, postId}){
