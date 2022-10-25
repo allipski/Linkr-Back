@@ -51,6 +51,7 @@ export async function login(req, res) {
     const token = jwt.sign({ id: user.rows[0].id }, process.env.TOKEN_SECRET, {
       expiresIn: "2d",
     });
+
     return res.status(200).send({ id: user.rows[0].id, name:user.rows[0].name, token, pictureUrl: user.rows[0].pictureUrl});
   } catch (error) {
     console.log(error);

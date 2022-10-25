@@ -10,8 +10,8 @@ export async function createPost({ url, description, userId }) {
 }
 
 export async function findPosts() {
-   return  connection.query(`SELECT posts.id, url, description, users.name AS "userName", users."pictureUrl" AS "userPic"  FROM posts JOIN users ON posts."userId" = users.id;`);
-
+   const result = await connection.query(`SELECT posts.id, url, description, users.name AS "userName", users."pictureUrl" AS "userPic"  FROM posts JOIN       users ON posts."userId" = users.id;`);
+   return result;
 }
 
 export async function verifyUserPost({user, postId}){
