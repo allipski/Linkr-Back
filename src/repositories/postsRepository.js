@@ -23,6 +23,11 @@ export async function findPosts(id) {
    return result;
 }
 
+export async function existFollowing(id) {
+  const result = await connection.query(`SELECT * FROM followers WHERE "followerId" = $1`, [id]);
+  return result;
+}
+
 export async function verifyUserPost({user, postId}){
     return connection.query(`SELECT * FROM posts JOIN users ON users.id = posts."userId"
     WHERE users.id = $1 AND posts.id = $2;`, [user.id, postId])
