@@ -24,8 +24,3 @@ export async function deleteUser({postId}){
     return connection.query(`DELETE FROM posts WHERE posts.id = $1;`, [postId])
 }
 
-export async function findPosts() {
-  const result =
-    await connection.query(`SELECT posts.id, url, description, users.name AS "userName", users."pictureUrl" AS "userPic"  FROM posts JOIN users ON posts."userId" = users.id;`);
-  return result;
-}
