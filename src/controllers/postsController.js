@@ -70,8 +70,10 @@ export async function deletePost(req, res) {
 }
 
 export async function getPosts(req, res) {
+  const { userid: id } = req.headers;
+
   try {
-    const posts = await postsRepository.findPosts();
+    const posts = await postsRepository.findPosts(id);
 
     const result = await Promise.all(
       posts.rows.map(async (item) => {
