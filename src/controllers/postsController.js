@@ -70,8 +70,20 @@ export async function deletePost(req, res) {
 }
 
 export async function getPosts(req, res) {
+  const { userid: id } = req.headers;
+
   try {
-    const posts = await postsRepository.findPosts();
+    const posts = await postsRepository.findPosts(id);
+    
+    if (posts.rows.length === 0) {
+      const following = await postsRepository.existFollowing(id);
+
+      if (following.rows.length === 0) {
+        return res.status(200).send("zero_following");
+      } else {
+        return res.status(200).send("zero_posts");
+      }
+    }
 
     const result = await Promise.all(
       posts.rows.map(async (item) => {
@@ -83,11 +95,11 @@ export async function getPosts(req, res) {
         newItem.image = image;
         newItem.metaDescription = description;
 
-        return newItem;
+        return newItem
       })
     );
 
-    return res.status(200).send(result);
+    return res.status(200).send(result.reverse());
   } catch (err) {
     console.log(err);
     return res.sendStatus(500);
