@@ -9,6 +9,9 @@ const {Pool} = pkg;
 try {
     connection = new Pool({
         connectionString:process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false
+        }
     });
     
 } catch (error) {
