@@ -24,7 +24,8 @@ export async function findPosts(id) {
 }
 
 export async function existFollowing(id) {
-  const result = await connection.query(`SELECT * FROM followers WHERE "followerId" = $1`, [id]);
+  console.log(id);
+  const result = await connection.query(`SELECT * FROM followers WHERE "userId" = $1`, [id]);
   return result;
 }
 

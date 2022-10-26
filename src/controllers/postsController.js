@@ -41,20 +41,20 @@ export async function publishPost(req, res) {
 export async function deletePost(req, res) {
   const { id } = req.params;
   const { user } = res.locals;
-  console.log(user.id);
+
   try {
     if (!req.params) {
       return res.sendStatus(404);
     }
 
     const postId = id;
-    console.log(postId);
+
 
     const { rows: postUser } = await postsRepository.verifyUserPost({
       user,
       postId,
     });
-    console.log(postUser);
+
 
     if (!postUser[0]) {
       return res.sendStatus(404);
@@ -71,9 +71,10 @@ export async function deletePost(req, res) {
 
 export async function getPosts(req, res) {
   const { userid: id } = req.headers;
-
+ 
   try {
     const posts = await postsRepository.findPosts(id);
+    console.log(posts);
     
     if (posts.rows.length === 0) {
       const following = await postsRepository.existFollowing(id);
