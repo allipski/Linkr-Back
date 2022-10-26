@@ -9,9 +9,23 @@ export async function createPost({ url, description, userId }) {
   return result;
 }
 
-export async function findPosts() {
-   const result = await connection.query(`SELECT posts.id, url, description, users.name AS "userName", users."pictureUrl" AS "userPic"  FROM posts JOIN       users ON posts."userId" = users.id;`);
+export async function findPosts(id) {
+   const result = await connection.query(`SELECT posts.id, posts.url, posts.description,  users.name AS "userName", 
+   users."pictureUrl" AS "userPic"
+   
+   FROM posts 
+   
+   JOIN followers ON posts."userId" = followers."userId"
+   
+   JOIN users ON posts."userId" = users.id
+   
+   WHERE followers."followerId" = $1;`, [id]);
    return result;
+}
+
+export async function existFollowing(id) {
+  const result = await connection.query(`SELECT * FROM followers WHERE "followerId" = $1`, [id]);
+  return result;
 }
 
 export async function verifyUserPost({user, postId}){
