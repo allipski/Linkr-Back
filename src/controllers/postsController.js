@@ -74,8 +74,6 @@ export async function getPosts(req, res) {
  
   try {
     const posts = await postsRepository.findPosts(id);
-    console.log(posts);
-    
     if (posts.rows.length === 0) {
       const following = await postsRepository.existFollowing(id);
 
