@@ -3,7 +3,7 @@ import { postId } from "./likeRepository.js";
 
 export async function createPost({ url, description, userId }) {
   const result = await connection.query(
-    `INSERT INTO posts (url, description, "userId" ) VALUES ($1,$2,$3)`,
+    `INSERT INTO posts (url, description, "userId" ) VALUES ($1,$2,$3) RETURNING id`,
     [url, description, userId]
   );
   return result;
