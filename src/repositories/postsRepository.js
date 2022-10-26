@@ -37,4 +37,3 @@ export async function verifyUserPost({user, postId}){
 export async function deleteUser({postId}){
     return connection.query(`DELETE FROM posts WHERE posts.id = $1;`, [postId]);
 }
-
