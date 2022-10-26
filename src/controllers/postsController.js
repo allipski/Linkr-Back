@@ -75,7 +75,7 @@ export async function deletePost(req, res) {
       return res.sendStatus(404);
     }
 
-    await postsRepository.deleteUser({ postId });
+    await postsRepository.deletePostUser({ postId });
 
     return res.sendStatus(204);
   } catch (err) {
@@ -117,5 +117,31 @@ export async function getPosts(req, res) {
   } catch (err) {
     console.log(err);
     return res.sendStatus(500);
+  }
+}
+
+export async function pulPostEdit(req ,res){
+  const { url, description }  = req.body;
+  const { user } = res.locals;
+  const { postId } = req.params;
+
+  try{
+
+    if(!req.body){
+      return res.sendStatus(404);
+    }
+
+    const {rows: findPost} = await postsRepository.verifyUserPost({user, postId})
+
+    if(!findPost[0]){
+      return res.sendStatus(404);
+    }
+
+    await postsRepository.editPost({url, description, postId})
+
+    return res.sendStatus(200);
+  }catch(err){
+    console.log(err)
+    return res.status(500).send('server error')
   }
 }

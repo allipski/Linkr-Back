@@ -29,10 +29,14 @@ export async function existFollowing(id) {
 }
 
 export async function verifyUserPost({user, postId}){
-    return connection.query(`SELECT * FROM posts JOIN users ON users.id = posts."userId"
+    return connection.query(`SELECT posts.url, posts.description FROM posts JOIN users ON users.id = posts."userId"
     WHERE users.id = $1 AND posts.id = $2;`, [user.id, postId])
 }
 
-export async function deleteUser({postId}){
+export async function deletePostUser({postId}){
     return connection.query(`DELETE FROM posts WHERE posts.id = $1;`, [postId]);
+}
+
+export async function editPost({postId, url, description}){
+  return connection.query(`UPDATE posts SET url=$1, description=$2 WHERE posts.id = $3;`, [url, description, postId])
 }
