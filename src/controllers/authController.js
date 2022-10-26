@@ -14,7 +14,6 @@ export async function createUser(req, res, next) {
   if (isUsernameValid.rowCount === 1) {
     return res.status(409).send("Email is already taken");
   }
-
   try {
     await usersRepository.registerUser({
       email,
@@ -23,11 +22,13 @@ export async function createUser(req, res, next) {
       pictureUrl,
     });
     next();
+    return res.sendStatus(201);
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
   }
-}
+
+};
 
 export async function login(req, res) {
   const { email, password } = req.body;
@@ -43,7 +44,7 @@ export async function login(req, res) {
 
     const validPassword = bcrypt.compareSync(password, user.rows[0].password);
 
-    if (!validPassword) {
+    if (!validPassword && user.rowCount === 1) {
       return res.status(401).send("Invalid email or password :(");
     }
 
