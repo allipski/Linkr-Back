@@ -120,7 +120,7 @@ export async function getPosts(req, res) {
   }
 }
 
-export async function postEdit(req ,res){
+export async function pulPostEdit(req ,res){
   const { url, description }  = req.body;
   const { user } = res.locals;
   const { postId } = req.params;
