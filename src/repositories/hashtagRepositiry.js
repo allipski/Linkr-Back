@@ -5,7 +5,7 @@ export async function getHashtags() {
         `SELECT hashtags.name, 
         COUNT(posts_hashtags) AS count
         FROM hashtags 
-        JOIN posts_hashtags ON posts_hashtags."hastagId" = hashtags.id 
+        JOIN posts_hashtags ON posts_hashtags."hashtagId" = hashtags.id 
         GROUP BY hashtags.name ORDER BY count DESC LIMIT 10;`);
 
         return result.rows;
