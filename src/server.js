@@ -10,8 +10,8 @@ import postsRouter from "./routers/postsRouter.js"
 dotenv.config();
 
 const server = express();
-server.use(express.json());
 server.use(cors());
+server.use(express.json());
 
 server.use(authRouter);
 server.use(likeRouter);
@@ -21,6 +21,6 @@ server.use(searchRouter);
 
 const PORT = process.env.PORT;
 
-server.listen(PORT , ()=>{
+server.listen(PORT, ()=>{
     console.log(`Server listening on port ${process.env.PORT}`);
 });
