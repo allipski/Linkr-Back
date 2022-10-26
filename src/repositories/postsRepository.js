@@ -19,7 +19,7 @@ export async function findPosts(id) {
    
    JOIN users ON posts."userId" = users.id
    
-   WHERE followers."followerId" = $1;`, [id]);
+   WHERE followers."followerId" = $1 OR posts."userId" = $2;`, [id, id]);
    return result;
 }
 
