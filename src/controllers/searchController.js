@@ -1,9 +1,10 @@
-import {searchUsers,searchUserPage} from "../repositories/searchRepository.js"
+import {searchUsers,searchUserPosts} from "../repositories/searchRepository.js"
+import getMetadata from "metadata-scraper";
 
 async function getUser(req,res){
     
     const {name} = req.params
-    console.log(name)
+ 
     try{
         const { rows: users } = await searchUsers(name);
         res.status(200).send(users);
@@ -20,8 +21,23 @@ async function getUserPage(req,res){
     const { id } = req.params;
 
     try{
-        const userPage = await searchUserPage(id);
-        res.status(200).send(userPage)
+        const userPosts = await searchUserPosts(id);
+
+        const result = await Promise.all(
+            userPosts.rows.map(async (item) => {
+              const { title, image, description } = await getMetadata(item.url);
+      
+              const newItem = { ...item };
+      
+              newItem.metaTitle = title;
+              newItem.image = image;
+              newItem.metaDescription = description;
+      
+              return newItem;
+            })
+          );
+
+        res.status(200).send(result)
 
     }catch(error){
         console.log(error)
