@@ -22,6 +22,7 @@ async function getUserPage(req,res){
 
     try{
         const userPosts = await searchUserPosts(id);
+        
 
         const result = await Promise.all(
             userPosts.rows.map(async (item) => {
@@ -36,12 +37,12 @@ async function getUserPage(req,res){
               return newItem;
             })
           );
-
+        console.log(result)
         res.status(200).send(result)
 
     }catch(error){
         console.log(error)
-        res.status(500).send("Problem on access user page")
+        res.status(500).send("Problem on access userrrr page")
     }
 }
 
