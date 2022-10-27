@@ -2,6 +2,7 @@ import getMetaData from "metadata-scraper";
 import { CommandCompleteMessage } from "pg-protocol/dist/messages.js";
 import * as postsRepository from "../repositories/postsRepository.js";
 import getMetadata from "metadata-scraper";
+import { postHashtag } from "../repositories/hashtagRepositiry.js";
 
 
 export async function publishPost(req, res) {
@@ -28,8 +29,22 @@ export async function publishPost(req, res) {
     return res.status(422).send("Invalid URL format.");
   }
 
+  const regex = /#\w+/g;
+
+  let hashtagList = description.match(regex)?.map((hashtag) => hashtag.split("#")[1]);
+  console.log(hashtagList);
+
   try {
-    await postsRepository.createPost({ url, description, userId });
+    const post = await postsRepository.createPost({ url, description, userId });
+
+    console.log(post.rows[0].id);
+
+    if(hashtagList) {
+      hashtagList.forEach((hashtag) => {
+        postHashtag(hashtag, post.rows[0].id)
+      })
+    }
+
     return res.sendStatus(201);
   } catch (err) {
     console.log(err);
@@ -41,26 +56,26 @@ export async function publishPost(req, res) {
 export async function deletePost(req, res) {
   const { id } = req.params;
   const { user } = res.locals;
-  console.log(user.id);
+
   try {
     if (!req.params) {
       return res.sendStatus(404);
     }
 
     const postId = id;
-    console.log(postId);
+
 
     const { rows: postUser } = await postsRepository.verifyUserPost({
       user,
       postId,
     });
-    console.log(postUser);
+
 
     if (!postUser[0]) {
       return res.sendStatus(404);
     }
 
-    await postsRepository.deleteUser({ postId });
+    await postsRepository.deletePostUser({ postId });
 
     return res.sendStatus(204);
   } catch (err) {
@@ -71,10 +86,9 @@ export async function deletePost(req, res) {
 
 export async function getPosts(req, res) {
   const { userid: id } = req.headers;
-
+ 
   try {
     const posts = await postsRepository.findPosts(id);
-    
     if (posts.rows.length === 0) {
       const following = await postsRepository.existFollowing(id);
 
@@ -103,5 +117,31 @@ export async function getPosts(req, res) {
   } catch (err) {
     console.log(err);
     return res.sendStatus(500);
+  }
+}
+
+export async function pulPostEdit(req ,res){
+  const { url, description }  = req.body;
+  const { user } = res.locals;
+  const { postId } = req.params;
+
+  try{
+
+    if(!req.body){
+      return res.sendStatus(404);
+    }
+
+    const {rows: findPost} = await postsRepository.verifyUserPost({user, postId})
+
+    if(!findPost[0]){
+      return res.sendStatus(404);
+    }
+
+    await postsRepository.editPost({url, description, postId})
+
+    return res.sendStatus(200);
+  }catch(err){
+    console.log(err)
+    return res.status(500).send('server error')
   }
 }
