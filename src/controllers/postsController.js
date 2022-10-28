@@ -37,7 +37,6 @@ export async function publishPost(req, res) {
   try {
     const post = await postsRepository.createPost({ url, description, userId });
 
-    console.log(post.rows[0].id);
 
     if(hashtagList) {
       hashtagList.forEach((hashtag) => {
