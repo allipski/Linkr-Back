@@ -112,7 +112,7 @@ export async function getPosts(req, res) {
       })
     );
 
-    return res.status(200).send(result.reverse());
+    return res.status(200).send(result);
   } catch (err) {
     console.log(err);
     return res.sendStatus(500);
