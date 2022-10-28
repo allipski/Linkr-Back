@@ -10,13 +10,17 @@ export async function validateToken(req, res, next) {
   if (!authorization) {
     return res.status(401).send("no header");
   }
+
   try {
     const verifiedUser = jwt.verify(token, process.env.TOKEN_SECRET);
 
-    res.locals.user = verifiedUser;
+   res.locals.user = verifiedUser;
+   console.log(res.locals.user.id)
+   next();
   } catch (error) {
+    console.log(error)
     return res.status(401).send("invalid token");
   }
   
-  next();
+
 }
