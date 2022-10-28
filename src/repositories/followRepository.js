@@ -6,13 +6,13 @@ export async function insertFollow(userId,user){
     return follow;
 }
 
-export async function selectFollow(followerId, userId){
-    const select = connection.query(`SELECT * FROM followers WHERE "userId" = $1 AND "followerId" = $2`, [userId,followerId])
+export async function selectFollow(user,id){
+    const select = connection.query(`SELECT "id" FROM followers WHERE "userId" = $1 AND "followerId" = $2`, [user,id])
     return select;
 }
 
-export async function removeFollow(userId, followedId){
-    const remove = connection.query(`DELETE FROM followers WHERE "userId" = $1 AND "followerId" = $2`, [userId,followedId])
+export async function removeFollow(userId, user){
+    const remove = connection.query(`DELETE FROM followers WHERE "userId" = $1 AND "followerId" = $2`, [userId,user])
     return remove;
 }
 

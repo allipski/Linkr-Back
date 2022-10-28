@@ -1,17 +1,17 @@
 
 import {insertFollow, selectFollow,removeFollow} from "../repositories/followRepository.js"
 
-async function followUser(req,res){
-
+export async function followUser(req,res){
+    console.log("oiiiiiiiiiiiii")
     const { userId} = req.params;
     const {user} = res.locals;
 
     console.log(userId)
-    console.log(user.id)
+    console.log(res.locals)
 
     try{
-        const followerId = user.id;
-        const checkFollow = await selectFollow(followerId, userId)
+
+        const checkFollow = await selectFollow(userId,user.id)
 
         if(checkFollow.rows[0]){
             return res.status(409).send('You already follow this user')
@@ -28,20 +28,20 @@ async function followUser(req,res){
     }
 }
 
-async function unfollowUser(req,res){
-
+export async function unfollowUser(req,res){
+    console.log("oiiiiiiiiiiiii")
     const { userId} = req.params;
     const {user} = res.locals;
 
     console.log(userId)
-    console.log(user.id)
-
+    console.log(res.locals)
     try{
-        const followedId = user.id;
-        const checkFollow = await selectFollow(followedId, userId)
+        const checkFollow = await selectFollow(userId,user.id)
+
+        console.log(checkFollow)
 
         if(checkFollow.rowCount === 0){
-            return res.status(409).send('You do not follow this user yet')
+            return res.status(400).send('You do not follow this user yet')
         }
 
         await removeFollow(userId,user.id)
@@ -54,5 +54,3 @@ async function unfollowUser(req,res){
         res.status(500).send("Problem on following process")
     }
 }
-
-export {followUser,unfollowUser}
