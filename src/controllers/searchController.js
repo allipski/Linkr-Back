@@ -1,5 +1,7 @@
 import {searchUsers,searchUserPosts} from "../repositories/searchRepository.js"
 import getMetadata from "metadata-scraper";
+import { selectFollow } from "../repositories/followRepository.js";
+
 
 async function getUser(req,res){
     
@@ -18,10 +20,18 @@ async function getUser(req,res){
 
 async function getUserPage(req,res){
 
+  
     const { id } = req.params;
+    const {user} = res.locals;
 
     try{
         const userPosts = await searchUserPosts(id);
+        let follow = await selectFollow(id,user.id)
+
+        if(follow.rowCount ===0)
+            follow=false
+
+        else follow = true
 
         const result = await Promise.all(
             userPosts.rows.map(async (item) => {
@@ -37,11 +47,11 @@ async function getUserPage(req,res){
             })
           );
 
-        res.status(200).send(result)
+        res.status(200).send({result,follow})
 
     }catch(error){
         console.log(error)
-        res.status(500).send("Problem on access user page")
+        res.status(500).send("Problem on access userrrr page")
     }
 }
 
